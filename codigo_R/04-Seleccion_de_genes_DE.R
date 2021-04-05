@@ -13,7 +13,7 @@
 
 ## ----c7codec01, eval=T----------------------------------------------------------------------------------------------------
 stopifnot(require(Biobase))
-load (file="./datos/celltypes/celltypes-normalized.rma.Rda")
+load (file="C:/Users/diego/OneDrive/Documentos/GitHub/Analisis_de_datos_omicos-Materiales_para_un_curso/datos/celltypes/celltypes-normalized.rma.Rda")
 my.eset <- eset_rma_filtered
 grupo_1 <- as.factor(pData(my.eset)$treat)
 stopifnot(require(genefilter))
@@ -38,23 +38,26 @@ plot(Y~FC)
 
 
 ## ---- eval=FALSE----------------------------------------------------------------------------------------------------------
-## library(ggrepel)
-## # plot adding up all layers we have seen so far
-## volcanoP<- function (de,log2FoldChange,  pvalue,
-##                      diffexpressed=NULL, col=NULL, delabel=NULL){
-##   ggplot(data=de, aes(x=log2FoldChange, y=-log10(pvalue), col=diffexpressed, label=delabel)) +
-##         geom_point() +
-##         theme_minimal() +
-##         geom_text_repel() +
-##         scale_color_manual(values=c("blue", "black", "red")) +
-##         geom_vline(xintercept=c(-0.6, 0.6), col="red") +
-##         geom_hline(yintercept=-log10(0.05), col="red")
-## }
-## diffexpressed <- ifelse(abs(teststat$statistic)>10, TRUE, FALSE)
-## label <- rep(NA, length(diffexpressed))
-## label[diffexpressed] <- rownames(teststat)[diffexpressed]
-## volcanoP (de=teststat, log2FoldChange=teststat$statistic,  pvalue=teststat$p.value,
-##           diffexpressed = diffexpressed, delabel = label)
+
+library(ggrepel) 
+plot adding up all layers we have seen so far
+
+volcanoP<- function (de,log2FoldChange,  pvalue,
+diffexpressed=NULL, col=NULL, delabel=NULL){
+ggplot(data=de, aes(x=log2FoldChange, y=-log10(pvalue), col=diffexpressed, label=delabel)) +
+geom_point() +
+theme_minimal() +
+geom_text_repel() +
+scale_color_manual(values=c("blue", "black", "red")) +
+geom_vline(xintercept=c(-0.6, 0.6), col="red") +
+geom_hline(yintercept=-log10(0.05), col="red")
+}
+
+diffexpressed <- ifelse(abs(teststat$statistic)>10, TRUE, FALSE)
+label <- rep(NA, length(diffexpressed))
+label[diffexpressed] <- rownames(teststat)[diffexpressed]
+volcanoP (de=teststat, log2FoldChange=teststat$statistic,  pvalue=teststat$p.value,
+diffexpressed = diffexpressed, delabel = label)
 
 
 ## ----adjustPvals----------------------------------------------------------------------------------------------------------
